@@ -1,0 +1,10 @@
+/*.html
+  Cache-Control: no-cache, must-revalidate
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://www.youtube.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://kubcmjbiaithfvozmdul.supabase.co https://*.supabase.co https://img.youtube.com; connect-src 'self' https://kubcmjbiaithfvozmdul.supabase.co; frame-src https://www.youtube.com; frame-ancestors 'self'; upgrade-insecure-requests

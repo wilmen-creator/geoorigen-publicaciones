@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voces del Campo — GeoOrigen</title>
+<meta name="description" content="Historias, documentales, artículos y casos de éxito del campo colombiano. El sistema de storytelling de GeoOrigen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--verde:#2D5016;--menta:#8FBC5A;--acento:#E8A020;--negro:#1A1A14;--blanco:#FAFAF6;--gris:#232318;--gris2:#2e2e22;--borde:rgba(143,188,90,0.18);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--negro);color:var(--blanco);overflow-x:hidden;}
+a,a:visited{color:inherit;text-decoration:none;}
+
+/* TIPO COLORS */
+:root{
+  --c-documental:#4A90D9;
+  --c-historia:#E8A020;
+  --c-caso:#8FBC5A;
+  --c-articulo:#9B6FAB;
+  --c-noticia:#D94A4A;
+}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:0.85rem 2.5rem;background:rgba(26,26,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--borde);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--blanco);}
+.nav-logo span{color:var(--menta);font-style:italic;}
+.nav-links{display:flex;align-items:center;gap:1.75rem;}
+.nav-link{font-size:0.73rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,250,246,0.48);transition:color .2s;}
+.nav-link:hover,.nav-link.active{color:var(--blanco);}
+.nav-cta{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;background:var(--menta);color:var(--verde);padding:0.48rem 1.1rem;border-radius:3px;font-weight:500;}
+
+/* HERO HEADER */
+.page-header{padding:7.5rem 2.5rem 3rem;border-bottom:1px solid var(--borde);background:linear-gradient(to bottom,rgba(45,80,22,0.06),transparent);}
+.page-header-inner{max-width:1100px;margin:0 auto;}
+.page-tag{font-size:0.63rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--menta);margin-bottom:0.55rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:700;line-height:1.15;margin-bottom:0.5rem;}
+.page-title em{color:var(--menta);font-style:italic;}
+.page-sub{font-size:0.88rem;color:rgba(250,250,246,0.42);max-width:520px;line-height:1.6;margin-bottom:2rem;}
+
+/* TYPE TABS */
+.tipo-tabs{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.tipo-tab{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.45rem 1rem;border-radius:3px;border:1px solid var(--borde);color:rgba(250,250,246,0.42);background:transparent;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.tipo-tab:hover{background:rgba(255,255,255,0.05);color:rgba(250,250,246,0.7);}
+.tipo-tab.active[data-tipo="todos"]{background:rgba(143,188,90,0.12);border-color:rgba(143,188,90,0.4);color:var(--menta);}
+.tipo-tab.active[data-tipo="documental"]{background:rgba(74,144,217,0.12);border-color:rgba(74,144,217,0.4);color:var(--c-documental);}
+.tipo-tab.active[data-tipo="historia"]{background:rgba(232,160,32,0.12);border-color:rgba(232,160,32,0.4);color:var(--c-historia);}
+.tipo-tab.active[data-tipo="caso_exito"]{background:rgba(143,188,90,0.12);border-color:rgba(143,188,90,0.4);color:var(--c-caso);}
+.tipo-tab.active[data-tipo="articulo"]{background:rgba(155,111,171,0.12);border-color:rgba(155,111,171,0.4);color:var(--c-articulo);}
+.tipo-tab.active[data-tipo="noticia"]{background:rgba(217,74,74,0.12);border-color:rgba(217,74,74,0.4);color:var(--c-noticia);}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:2.5rem;}
+
+/* SEARCH */
+.search-wrap{margin-bottom:1.5rem;}
+.search-input{width:100%;max-width:480px;background:var(--gris2);border:1px solid var(--borde);border-radius:5px;padding:0.65rem 1rem;color:var(--blanco);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;transition:border-color .2s;}
+.search-input::placeholder{color:rgba(250,250,246,0.28);}
+.search-input:focus{border-color:rgba(143,188,90,0.4);}
+.results-info{font-size:0.76rem;color:rgba(250,250,246,0.32);margin-bottom:1.5rem;}
+.results-info span{color:var(--menta);}
+
+/* FEATURED POST */
+.featured-wrap{margin-bottom:2rem;}
+.featured-card{background:var(--gris2);border:1px solid var(--borde);border-radius:12px;overflow:hidden;cursor:pointer;display:grid;grid-template-columns:1.6fr 1fr;min-height:300px;transition:border-color .3s;}
+.featured-card:hover{border-color:rgba(143,188,90,0.4);}
+.featured-img{position:relative;overflow:hidden;background:linear-gradient(135deg,#1c340f,#2d5016);display:flex;align-items:center;justify-content:center;}
+.featured-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.featured-card:hover .featured-img img{transform:scale(1.03);}
+.featured-img-ov{position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,rgba(46,46,34,0.9));}
+.featured-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.play-btn{width:56px;height:56px;background:rgba(232,160,32,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s;}
+.featured-card:hover .play-btn{transform:scale(1.1);background:var(--acento);}
+.featured-info{padding:2rem 1.75rem;display:flex;flex-direction:column;justify-content:center;}
+.feat-dest{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--acento);margin-bottom:0.6rem;}
+.featured-titulo{font-family:'Playfair Display',serif;font-size:1.45rem;line-height:1.25;margin-bottom:0.75rem;}
+.featured-excerpt{font-size:0.84rem;color:rgba(250,250,246,0.5);line-height:1.65;margin-bottom:1rem;}
+.featured-meta{font-size:0.72rem;color:rgba(250,250,246,0.3);display:flex;align-items:center;gap:0.6rem;}
+.featured-meta span{display:flex;align-items:center;gap:0.25rem;}
+.tipo-badge{display:inline-block;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;border-radius:2px;padding:0.18rem 0.55rem;border:1px solid;margin-bottom:0.6rem;}
+.tipo-badge.documental{background:rgba(74,144,217,0.1);border-color:rgba(74,144,217,0.35);color:var(--c-documental);}
+.tipo-badge.historia{background:rgba(232,160,32,0.1);border-color:rgba(232,160,32,0.35);color:var(--c-historia);}
+.tipo-badge.caso_exito{background:rgba(143,188,90,0.1);border-color:rgba(143,188,90,0.35);color:var(--c-caso);}
+.tipo-badge.articulo{background:rgba(155,111,171,0.1);border-color:rgba(155,111,171,0.35);color:var(--c-articulo);}
+.tipo-badge.noticia{background:rgba(217,74,74,0.1);border-color:rgba(217,74,74,0.35);color:var(--c-noticia);}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;}
+
+/* CARD */
+.card{background:var(--gris2);border:1px solid var(--borde);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .3s,transform .3s;display:flex;flex-direction:column;}
+.card:hover{border-color:rgba(143,188,90,0.38);transform:translateY(-3px);}
+.card-thumb{height:195px;position:relative;overflow:hidden;background:linear-gradient(135deg,#1c340f,#2d5016);display:flex;align-items:center;justify-content:center;}
+.card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.card:hover .card-thumb img{transform:scale(1.04);}
+.card-thumb-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,26,20,0.75),transparent 60%);}
+.card-type-badge{position:absolute;top:0.7rem;left:0.7rem;}
+.card-video-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.mini-play{width:40px;height:40px;background:rgba(232,160,32,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.card-body{padding:1rem 1.1rem 1.2rem;display:flex;flex-direction:column;flex:1;}
+.card-titulo{font-family:'Playfair Display',serif;font-size:1.02rem;line-height:1.35;margin-bottom:0.4rem;}
+.card-excerpt{font-size:0.78rem;color:rgba(250,250,246,0.42);line-height:1.6;flex:1;margin-bottom:0.75rem;}
+.card-meta{font-size:0.7rem;color:rgba(250,250,246,0.28);display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+.card-meta span{display:flex;align-items:center;gap:0.22rem;}
+.card-tags{display:flex;flex-wrap:wrap;gap:0.28rem;margin-top:0.6rem;}
+.tag{font-size:0.57rem;letter-spacing:0.05em;border:1px solid var(--borde);border-radius:2px;padding:0.1rem 0.4rem;color:rgba(250,250,246,0.32);}
+
+/* EMPTY & SKELETON */
+.empty{text-align:center;padding:5rem 2rem;color:rgba(250,250,246,0.22);grid-column:1/-1;}
+.empty svg{stroke:rgba(143,188,90,0.15);fill:none;display:block;margin:0 auto 1.2rem;}
+.empty p{font-size:0.86rem;line-height:1.7;}
+.empty small{font-size:0.72rem;color:rgba(250,250,246,0.18);font-style:italic;}
+.skeleton{background:linear-gradient(90deg,var(--gris2) 25%,rgba(255,255,255,0.05) 50%,var(--gris2) 75%);background-size:200%;animation:shimmer 1.4s infinite;border-radius:10px;height:310px;}
+.skeleton-feat{height:300px;margin-bottom:2rem;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* DETAIL MODAL */
+.modal-bg{display:none;position:fixed;inset:0;z-index:500;background:rgba(8,8,6,0.93);align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--gris);border:1px solid var(--borde);border-radius:14px;width:100%;max-width:820px;margin:auto;overflow:hidden;position:relative;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:rgba(26,26,20,0.88);border:1px solid rgba(255,255,255,0.15);border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(250,250,246,0.6);font-size:1rem;z-index:10;transition:all .2s;}
+.modal-close:hover{color:var(--blanco);}
+
+/* VIDEO EMBED */
+.modal-video{position:relative;width:100%;background:#000;aspect-ratio:16/9;}
+.modal-video iframe{width:100%;height:100%;border:none;display:block;}
+
+/* IMAGE HERO */
+.modal-img-hero{height:300px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1c340f,#2d5016);display:flex;align-items:center;justify-content:center;}
+.modal-img-hero img{width:100%;height:100%;object-fit:cover;}
+.modal-img-hero-ph{opacity:0.1;}
+
+/* BODY */
+.modal-body{padding:2rem 2.25rem 2.25rem;}
+.modal-type-row{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;}
+.modal-titulo{font-family:'Playfair Display',serif;font-size:1.9rem;line-height:1.2;margin-bottom:0.5rem;}
+.modal-meta{font-size:0.78rem;color:rgba(250,250,246,0.35);display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.modal-meta span{display:flex;align-items:center;gap:0.28rem;}
+.modal-meta svg{stroke:currentColor;fill:none;width:13px;height:13px;}
+.modal-content{font-size:0.9rem;color:rgba(250,250,246,0.7);line-height:1.8;}
+.modal-content p{margin-bottom:1rem;}
+.modal-content p:last-child{margin-bottom:0;}
+
+/* GALLERY */
+.modal-gallery{display:flex;gap:0.5rem;overflow-x:auto;padding-bottom:0.5rem;margin-top:1.5rem;scrollbar-width:thin;scrollbar-color:rgba(143,188,90,0.2) transparent;}
+.modal-gallery img{height:200px;width:auto;object-fit:cover;border-radius:5px;cursor:pointer;flex-shrink:0;transition:opacity .2s;}
+.modal-gallery img:hover{opacity:0.85;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:1.5rem;}
+
+/* LIGHTBOX */
+.lb{display:none;position:fixed;inset:0;z-index:600;background:rgba(8,8,6,0.97);align-items:center;justify-content:center;}
+.lb.open{display:flex;}
+.lb img{max-width:92vw;max-height:90vh;object-fit:contain;border-radius:4px;}
+.lb-x{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;color:rgba(250,250,246,0.5);font-size:1.5rem;cursor:pointer;}
+
+/* FOOTER */
+footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:4rem;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1rem;}
+.footer-logo span{color:var(--menta);font-style:italic;}
+.footer-links{display:flex;gap:1.5rem;}
+.footer-link{font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(250,250,246,0.28);transition:color .2s;}
+.footer-link:hover{color:var(--menta);}
+.footer-copy{font-size:0.65rem;color:rgba(250,250,246,0.18);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0.75rem 1.25rem;}
+  .nav-links .nav-link:not(.nav-cta){display:none;}
+  .page-header{padding:6.5rem 1.25rem 2rem;}
+  .page-title{font-size:1.9rem;}
+  .main{padding:1.5rem 1.25rem;}
+  .featured-card{grid-template-columns:1fr;min-height:auto;}
+  .featured-img{height:200px;}
+  .featured-img-ov{background:linear-gradient(to top,rgba(46,46,34,0.9),transparent);}
+  .modal-body{padding:1.25rem 1.25rem 1.75rem;}
+  .modal-titulo{font-size:1.4rem;}
+  footer{flex-direction:column;gap:1rem;text-align:center;}
+  .footer-links{justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Geo<span>Origen</span></a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Inicio</a>
+    <a href="proyectos.html" class="nav-link">Catálogo</a>
+    <a href="productos.html" class="nav-link">Productos</a>
+    <a href="publicaciones.html" class="nav-link active">Voces del campo</a>
+    <a href="contacto.html" class="nav-cta">Contacto</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-tag">Revista digital · GeoOrigen</div>
+    <h1 class="page-title">Voces del <em>campo</em></h1>
+    <p class="page-sub">Historias reales, documentales, casos de éxito y artículos que dan voz a quienes cultivan Colombia desde las raíces.</p>
+    <div class="tipo-tabs">
+      <button class="tipo-tab active" data-tipo="todos" onclick="setTipo('todos',this)">Todos</button>
+      <button class="tipo-tab" data-tipo="documental" onclick="setTipo('documental',this)">Documentales</button>
+      <button class="tipo-tab" data-tipo="historia" onclick="setTipo('historia',this)">Historias</button>
+      <button class="tipo-tab" data-tipo="caso_exito" onclick="setTipo('caso_exito',this)">Casos de éxito</button>
+      <button class="tipo-tab" data-tipo="articulo" onclick="setTipo('articulo',this)">Artículos</button>
+      <button class="tipo-tab" data-tipo="noticia" onclick="setTipo('noticia',this)">Noticias</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="search-wrap">
+    <input class="search-input" id="searchInput" type="text" placeholder="Buscar por título, autor o tema…" oninput="filterPosts()">
+  </div>
+  <div class="results-info" id="resultsInfo">&nbsp;</div>
+  <div class="featured-wrap" id="featuredWrap">
+    <div class="skeleton skeleton-feat"></div>
+  </div>
+  <div class="grid" id="grid">
+    <div class="skeleton"></div><div class="skeleton"></div>
+    <div class="skeleton"></div><div class="skeleton"></div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closePost()">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closePost()">✕</button>
+    <div id="modalHero"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX (for gallery) -->
+<div class="lb" id="lb" onclick="closeLb()">
+  <button class="lb-x" onclick="event.stopPropagation();closeLb()">✕</button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<footer>
+  <div class="footer-logo">Geo<span>Origen</span></div>
+  <div class="footer-links">
+    <a href="/" class="footer-link">Inicio</a>
+    <a href="proyectos.html" class="footer-link">Catálogo</a>
+    <a href="productos.html" class="footer-link">Productos</a>
+    <a href="contacto.html" class="footer-link">Contacto</a>
+  </div>
+  <div class="footer-copy">© 2025 GeoOrigen · Colombia</div>
+</footer>
+
+<script>
+/*
+ * ═══════════════════════════════════════════════════════════
+ * TABLA SUPABASE — ejecutar en SQL Editor de Supabase:
+ *
+ * CREATE TABLE publicaciones (
+ *   id               UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+ *   slug             TEXT UNIQUE NOT NULL,
+ *   titulo           TEXT NOT NULL,
+ *   tipo             TEXT NOT NULL,  -- documental | historia | caso_exito | articulo | noticia
+ *   descripcion_corta TEXT,
+ *   contenido        TEXT,           -- texto largo, párrafos separados por \n\n
+ *   video_url        TEXT,           -- URL de YouTube (cualquier formato)
+ *   imagen_portada   TEXT,
+ *   galeria          JSONB,          -- [{"url":"...","caption":"..."}]
+ *   autor            TEXT,
+ *   tags             TEXT[],         -- ej: {"café","Antioquia","exportación"}
+ *   fecha_publicacion DATE DEFAULT CURRENT_DATE,
+ *   lectura_min      INTEGER,        -- tiempo estimado de lectura en minutos
+ *   activa           BOOLEAN DEFAULT true,
+ *   destacado        BOOLEAN DEFAULT false
+ * );
+ *
+ * ALTER TABLE publicaciones ENABLE ROW LEVEL SECURITY;
+ * CREATE POLICY "public_read" ON publicaciones FOR SELECT USING (activa = true);
+ * ═══════════════════════════════════════════════════════════
+ */
+
+const SUPA_URL = 'https://kubcmjbiaithfvozmdul.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1YmNtamJpYWl0aGZ2b3ptZHVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MjI0MzAsImV4cCI6MjA4OTE5ODQzMH0.GoT7vRuwEv7P2mJU1hqIzAXnaNdm4ji-DQM-2WU7WOM';
+const H = { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Accept': 'application/json' };
+
+function esc(s) { return s == null ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+const TIPO_LABELS = {
+  documental: 'Documental', historia: 'Historia',
+  caso_exito: 'Caso de éxito', articulo: 'Artículo', noticia: 'Noticia'
+};
+
+let allPosts = [];
+let currentTipo = 'todos';
+
+function getYTId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  return m ? m[1] : null;
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  try {
+    return new Date(d + 'T12:00:00').toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+  } catch { return d; }
+}
+
+function typeBadgeHtml(tipo) {
+  const label = TIPO_LABELS[tipo] || tipo || '';
+  return label ? `<span class="tipo-badge ${esc(tipo)}">${esc(label)}</span>` : '';
+}
+
+async function loadPosts() {
+  try {
+    const r = await fetch(
+      SUPA_URL + '/rest/v1/publicaciones?activa=eq.true&order=destacado.desc,fecha_publicacion.desc' +
+      '&select=id,slug,titulo,tipo,descripcion_corta,contenido,video_url,imagen_portada,galeria,autor,tags,fecha_publicacion,lectura_min,destacado',
+      { headers: H }
+    );
+    if (!r.ok) throw new Error();
+    allPosts = await r.json();
+  } catch (e) {
+    allPosts = [];
+  }
+  filterPosts();
+}
+
+function setTipo(tipo, btn) {
+  currentTipo = tipo;
+  document.querySelectorAll('.tipo-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterPosts();
+}
+
+function filterPosts() {
+  const q = (document.getElementById('searchInput').value || '').toLowerCase();
+  const filtered = allPosts.filter(p => {
+    if (currentTipo !== 'todos' && p.tipo !== currentTipo) return false;
+    if (q) {
+      const hay = [p.titulo, p.descripcion_corta, p.autor, ...(p.tags || [])].filter(Boolean).join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  renderPosts(filtered);
+}
+
+function renderPosts(list) {
+  const featuredWrap = document.getElementById('featuredWrap');
+  const grid = document.getElementById('grid');
+  const info = document.getElementById('resultsInfo');
+
+  info.innerHTML = `<span>${list.length}</span> publicación${list.length !== 1 ? 'es' : ''} encontrada${list.length !== 1 ? 's' : ''}`;
+
+  if (!list.length) {
+    featuredWrap.innerHTML = '';
+    grid.innerHTML = `<div class="empty">
+      <svg width="56" height="56" viewBox="0 0 24 24" stroke-width="1"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <p>Aún no hay publicaciones en esta categoría.</p>
+      <small>Próximamente compartiremos historias del campo colombiano.</small>
+    </div>`;
+    return;
+  }
+
+  // Featured: first destacado or just first
+  const featured = list.find(p => p.destacado) || list[0];
+  const rest = list.filter(p => p.id !== featured.id);
+
+  // Render featured
+  const ytId = getYTId(featured.video_url);
+  const hasVideo = !!ytId;
+  featuredWrap.innerHTML = `
+    <div class="featured-card" onclick="openPost('${esc(featured.id)}')">
+      <div class="featured-img">
+        ${featured.imagen_portada
+          ? `<img src="${esc(featured.imagen_portada)}" alt="${esc(featured.titulo)}" loading="lazy">`
+          : hasVideo
+            ? `<img src="https://img.youtube.com/vi/${esc(ytId)}/maxresdefault.jpg" alt="${esc(featured.titulo)}" onerror="this.src='https://img.youtube.com/vi/${esc(ytId)}/hqdefault.jpg'" loading="lazy">`
+            : `<svg class="modal-img-hero-ph" width="64" height="64" viewBox="0 0 24 24" stroke="rgba(143,188,90,0.3)" stroke-width="0.8" fill="none"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/></svg>`}
+        <div class="featured-img-ov"></div>
+        ${hasVideo ? `<div class="featured-play"><div class="play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>` : ''}
+      </div>
+      <div class="featured-info">
+        ${featured.destacado ? `<div class="feat-dest">Destacado</div>` : ''}
+        ${typeBadgeHtml(featured.tipo)}
+        <div class="featured-titulo">${esc(featured.titulo)}</div>
+        ${featured.descripcion_corta ? `<div class="featured-excerpt">${esc(featured.descripcion_corta)}</div>` : ''}
+        <div class="featured-meta">
+          ${featured.autor ? `<span><svg width="12" height="12" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${esc(featured.autor)}</span>` : ''}
+          ${featured.fecha_publicacion ? `<span>${esc(formatDate(featured.fecha_publicacion))}</span>` : ''}
+          ${featured.lectura_min ? `<span>${featured.lectura_min} min de lectura</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+
+  // Render rest as grid
+  if (!rest.length) { grid.innerHTML = ''; return; }
+  grid.innerHTML = rest.map(p => {
+    const yId = getYTId(p.video_url);
+    const hasVid = !!yId;
+    const thumb = p.imagen_portada || (hasVid ? `https://img.youtube.com/vi/${yId}/hqdefault.jpg` : null);
+    const tags = Array.isArray(p.tags) ? p.tags : [];
+    return `
+    <div class="card" onclick="openPost('${esc(p.id)}')">
+      <div class="card-thumb">
+        ${thumb ? `<img src="${esc(thumb)}" alt="${esc(p.titulo)}" loading="lazy">` : ''}
+        <div class="card-thumb-ov"></div>
+        <div class="card-type-badge">${typeBadgeHtml(p.tipo)}</div>
+        ${hasVid && !p.imagen_portada ? `<div class="card-video-icon"><div class="mini-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-titulo">${esc(p.titulo)}</div>
+        ${p.descripcion_corta ? `<div class="card-excerpt">${esc(p.descripcion_corta)}</div>` : '<div class="card-excerpt"></div>'}
+        <div class="card-meta">
+          ${p.autor ? `<span><svg width="11" height="11" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${esc(p.autor)}</span>` : ''}
+          ${p.fecha_publicacion ? `<span>${esc(formatDate(p.fecha_publicacion))}</span>` : ''}
+          ${p.lectura_min ? `<span>${p.lectura_min} min</span>` : ''}
+        </div>
+        ${tags.length ? `<div class="card-tags">${tags.slice(0,4).map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openPost(id) {
+  const p = allPosts.find(x => x.id === id);
+  if (!p) return;
+
+  const ytId = getYTId(p.video_url);
+  const galeria = Array.isArray(p.galeria) ? p.galeria : [];
+  const tags = Array.isArray(p.tags) ? p.tags : [];
+
+  // Hero: video embed or image
+  const heroEl = document.getElementById('modalHero');
+  if (ytId) {
+    heroEl.className = 'modal-video';
+    heroEl.innerHTML = `<iframe src="https://www.youtube.com/embed/${esc(ytId)}?autoplay=0&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+  } else if (p.imagen_portada) {
+    heroEl.className = 'modal-img-hero';
+    heroEl.innerHTML = `<img src="${esc(p.imagen_portada)}" alt="${esc(p.titulo)}">`;
+  } else {
+    heroEl.className = 'modal-img-hero';
+    heroEl.innerHTML = `<svg class="modal-img-hero-ph" width="72" height="72" viewBox="0 0 24 24" stroke="rgba(143,188,90,0.25)" stroke-width="0.8" fill="none"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+  }
+
+  // Content paragraphs
+  const contentHtml = p.contenido
+    ? p.contenido.split(/\n\n+/).map(para => `<p>${esc(para.trim())}</p>`).join('')
+    : (p.descripcion_corta ? `<p>${esc(p.descripcion_corta)}</p>` : '');
+
+  // Gallery
+  const galeriaHtml = galeria.length
+    ? `<div class="modal-gallery">${galeria.map((img, i) => `<img src="${esc(img.url || img)}" alt="${esc(img.caption || 'Foto ' + (i+1))}" onclick="event.stopPropagation();openLb('${esc(img.url || img)}')" loading="lazy">`).join('')}</div>`
+    : '';
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-type-row">${typeBadgeHtml(p.tipo)}</div>
+    <div class="modal-titulo">${esc(p.titulo)}</div>
+    <div class="modal-meta">
+      ${p.autor ? `<span><svg viewBox="0 0 24 24" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${esc(p.autor)}</span>` : ''}
+      ${p.fecha_publicacion ? `<span><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${esc(formatDate(p.fecha_publicacion))}</span>` : ''}
+      ${p.lectura_min ? `<span>${p.lectura_min} min de lectura</span>` : ''}
+    </div>
+    ${contentHtml ? `<div class="modal-content">${contentHtml}</div>` : ''}
+    ${galeriaHtml}
+    ${tags.length ? `<div class="modal-tags">${tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}`;
+
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePost() {
+  // Stop any playing video
+  const hero = document.getElementById('modalHero');
+  if (hero.querySelector('iframe')) hero.innerHTML = '';
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function openLb(src) {
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lb').classList.add('open');
+}
+function closeLb() { document.getElementById('lb').classList.remove('open'); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closePost(); closeLb(); }
+});
+
+loadPosts();
+</script>
+</body>
+</html>
