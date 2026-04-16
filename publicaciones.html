@@ -199,13 +199,8 @@ footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5
     <div class="page-tag">Revista digital · GeoOrigen</div>
     <h1 class="page-title">Voces del <em>campo</em></h1>
     <p class="page-sub">Historias reales, documentales, casos de éxito y artículos que dan voz a quienes cultivan Colombia desde las raíces.</p>
-    <div class="tipo-tabs">
-      <button class="tipo-tab active" data-tipo="todos" onclick="setTipo('todos',this)">Todos</button>
-      <button class="tipo-tab" data-tipo="documental" onclick="setTipo('documental',this)">Documentales</button>
-      <button class="tipo-tab" data-tipo="historia" onclick="setTipo('historia',this)">Historias</button>
-      <button class="tipo-tab" data-tipo="caso_exito" onclick="setTipo('caso_exito',this)">Casos de éxito</button>
-      <button class="tipo-tab" data-tipo="articulo" onclick="setTipo('articulo',this)">Artículos</button>
-      <button class="tipo-tab" data-tipo="noticia" onclick="setTipo('noticia',this)">Noticias</button>
+    <div class="tipo-tabs" id="tipoTabs">
+      <!-- generadas dinámicamente al cargar datos -->
     </div>
   </div>
 </div>
@@ -292,6 +287,32 @@ const TIPO_LABELS = {
 let allPosts = [];
 let currentTipo = 'todos';
 
+// ── Orden preferido de tipos ──────────────────────────────────────────────────
+const TIPO_ORDER = ['documental','historia','caso_exito','articulo','noticia'];
+
+// ── Etiquetas plurales para las pestañas ──────────────────────────────────────
+const TIPO_TAB_LABELS = {
+  documental: 'Documentales', historia: 'Historias',
+  caso_exito: 'Casos de éxito', articulo: 'Artículos', noticia: 'Noticias'
+};
+
+// ── Construir pestañas solo con los tipos que tienen publicaciones ─────────────
+function buildTipoTabs() {
+  const container = document.getElementById('tipoTabs');
+  const tiposInData = [...new Set(allPosts.map(p => p.tipo).filter(Boolean))];
+  tiposInData.sort((a, b) => {
+    const ia = TIPO_ORDER.indexOf(a); const ib = TIPO_ORDER.indexOf(b);
+    return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib);
+  });
+  const btns = [`<button class="tipo-tab active" data-tipo="todos" onclick="setTipo('todos',this)">Todos</button>`];
+  tiposInData.forEach(tipo => {
+    const label = TIPO_TAB_LABELS[tipo] || (TIPO_LABELS[tipo] || tipo);
+    btns.push(`<button class="tipo-tab" data-tipo="${esc(tipo)}" onclick="setTipo('${tipo}',this)">${esc(label)}</button>`);
+  });
+  container.innerHTML = btns.join('');
+  currentTipo = 'todos'; // reset al reconstruir
+}
+
 function getYTId(url) {
   if (!url) return null;
   const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
@@ -322,6 +343,7 @@ async function loadPosts() {
   } catch (e) {
     allPosts = [];
   }
+  buildTipoTabs();
   filterPosts();
 }
 
