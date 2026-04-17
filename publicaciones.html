@@ -578,8 +578,10 @@ document.addEventListener('keydown', e => {
 function normUrl(u) {
   if (!u) return '#';
   u = u.trim();
-  if (/^https?:\/\//i.test(u)) return u;
   if (/^(javascript|data|vbscript):/i.test(u)) return '#';
+  if (/^https?:\/\//i.test(u)) return u;
+  // Espacios o sin punto → no es una URL válida
+  if (/\s/.test(u) || !u.includes('.')) return '#';
   return 'https://' + u;
 }
 
