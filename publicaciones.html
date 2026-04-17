@@ -208,8 +208,8 @@ footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5
 .perfil-modal-bg{display:none;position:fixed;inset:0;z-index:600;background:rgba(8,8,6,.93);align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;}
 .perfil-modal-bg.open{display:flex;}
 .perfil-modal{background:var(--gris);border:1px solid var(--borde);border-radius:14px;width:100%;max-width:520px;margin:auto;overflow:hidden;position:relative;}
-.perfil-modal-hero{height:220px;background:linear-gradient(135deg,#1c2818,#2d5016);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
-.perfil-modal-hero img{width:100%;height:100%;object-fit:cover;}
+.perfil-modal-hero{max-height:340px;background:linear-gradient(135deg,#1c2818,#2d5016);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.perfil-modal-hero img{width:100%;max-height:340px;object-fit:contain;}
 .perfil-modal-close{position:absolute;top:1rem;right:1rem;background:rgba(26,26,20,.88);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(250,250,246,.6);font-size:1rem;z-index:10;transition:all .2s;}
 .perfil-modal-close:hover{color:var(--blanco);}
 .perfil-modal-body{padding:1.75rem 2rem 2rem;}
@@ -571,6 +571,12 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closePost(); closeLb(); closePerfilDetail(); }
 });
 
+function normUrl(u) {
+  if (!u) return u;
+  u = u.trim();
+  return /^https?:\/\//i.test(u) ? u : 'https://' + u;
+}
+
 function openPerfilDetail(p) {
   const hero = document.getElementById('perfilModalHero');
   const body = document.getElementById('perfilModalBody');
@@ -586,7 +592,7 @@ function openPerfilDetail(p) {
   const contactoHtml = c ? `<a href="${href}" target="_blank" rel="noopener" class="perfil-contacto">${isWA ? waIcon : mailIcon} Contactar</a>` : '';
 
   const redesDef = [['instagram',p.instagram,'<path d="M9 2H15a7 7 0 0 1 7 7v6a7 7 0 0 1-7 7H9a7 7 0 0 1-7-7V9a7 7 0 0 1 7-7z"/><circle cx="12" cy="12" r="3"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>'],['facebook',p.facebook,'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>'],['tiktok',p.tiktok,'<path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34l-.02-7.61a8.16 8.16 0 0 0 4.77 1.52V5.77a4.85 4.85 0 0 1-1-.08z"/>'],['youtube',p.youtube,'<path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>'],['linkedin',p.linkedin,'<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>']].filter(([,url])=>url);
-  const redesHtml = redesDef.length ? `<div style="display:flex;gap:.45rem">${redesDef.map(([,url,path])=>`<a href="${url}" target="_blank" rel="noopener" class="perfil-red"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${path}</svg></a>`).join('')}</div>` : '';
+  const redesHtml = redesDef.length ? `<div style="display:flex;gap:.45rem">${redesDef.map(([,url,path])=>`<a href="${normUrl(url)}" target="_blank" rel="noopener" class="perfil-red"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${path}</svg></a>`).join('')}</div>` : '';
 
   body.innerHTML = `
     <div class="perfil-modal-profesion">${p.profesion||''}</div>
@@ -641,7 +647,7 @@ async function loadPerfilesPub() {
           ${(()=>{
             const redes=[['instagram',p.instagram,'<path d="M9 2H15a7 7 0 0 1 7 7v6a7 7 0 0 1-7 7H9a7 7 0 0 1-7-7V9a7 7 0 0 1 7-7z"/><circle cx="12" cy="12" r="3"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>'],['facebook',p.facebook,'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>'],['tiktok',p.tiktok,'<path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34l-.02-7.61a8.16 8.16 0 0 0 4.77 1.52V5.77a4.85 4.85 0 0 1-1-.08z"/>'],['youtube',p.youtube,'<path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>'],['linkedin',p.linkedin,'<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>']].filter(([,url])=>url);
             if(!redes.length) return '';
-            return `<div style="display:flex;gap:.4rem;margin-top:.6rem">${redes.map(([,url,path])=>`<a href="${url}" target="_blank" rel="noopener" class="perfil-red" title="${url}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${path}</svg></a>`).join('')}</div>`;
+            return `<div style="display:flex;gap:.4rem;margin-top:.6rem">${redes.map(([,url,path])=>`<a href="${normUrl(url)}" target="_blank" rel="noopener" class="perfil-red" title="${url}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${path}</svg></a>`).join('')}</div>`;
           })()}
         </div>
       </div>`;
