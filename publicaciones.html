@@ -161,10 +161,20 @@ footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5
 .footer-link:hover{color:var(--menta);}
 .footer-copy{font-size:0.65rem;color:rgba(250,250,246,0.18);}
 
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:310;}
+.hamburger span{display:block;width:23px;height:2px;background:var(--blanco);border-radius:2px;transition:transform .3s,opacity .3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   nav{padding:0.75rem 1.25rem;}
-  .nav-links .nav-link:not(.nav-cta){display:none;}
+  .hamburger{display:flex;}
+  .nav-links{display:none;position:fixed;top:60px;left:0;right:0;flex-direction:column;background:rgba(26,26,20,0.98);backdrop-filter:blur(14px);border-bottom:1px solid var(--borde);padding:0.75rem;gap:0.25rem;z-index:299;}
+  .nav-links.open{display:flex;}
+  .nav-link{padding:0.75rem 1rem;border-radius:4px;font-size:0.82rem;}
   .page-header{padding:6.5rem 1.25rem 2rem;}
   .page-title{font-size:1.9rem;}
   .main{padding:1.5rem 1.25rem;}
@@ -223,7 +233,7 @@ footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5
 
 <nav>
   <a href="https://geoorigen.com" class="nav-logo"><img src="https://geoorigen.com/img/logo-blanco.png" alt="GeoOrigen"></a>
-  <div class="nav-links">
+  <div class="nav-links" id="navLinks">
     <a href="https://geoorigen.com" class="nav-link">Inicio</a>
     <a href="https://geoorigen.com/servicios.html" class="nav-link">Servicios</a>
     <a href="https://geoorigen.com/proyectos.html" class="nav-link">Catálogo</a>
@@ -231,6 +241,9 @@ footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5
     <a href="publicaciones.html" class="nav-link active">Voces del campo</a>
     <a href="https://geoorigen.com/contacto.html" class="nav-cta">Hablemos de tu proyecto</a>
   </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="page-header">
@@ -663,6 +676,19 @@ async function loadPerfilesPub() {
     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:rgba(250,250,246,.2);padding:2rem;font-size:.82rem">No se pudo cargar el directorio.</div>';
   }
 }
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('navLinks').classList.toggle('open');
+}
+(function(){
+  document.addEventListener('click',function(e){
+    var nav=document.getElementById('navLinks');
+    var btn=document.getElementById('hamburger');
+    if(nav&&nav.classList.contains('open')&&!nav.contains(e.target)&&!btn.contains(e.target)){
+      nav.classList.remove('open');btn.classList.remove('open');
+    }
+  });
+})();
 </script>
 </body>
 </html>
