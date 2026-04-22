@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"><link rel="icon" type="image/png" href="https://geoorigen.com/img/logo.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Voces del Campo — GeoOrigen</title>
 <meta name="description" content="Historias, documentales, artículos y casos de éxito del campo colombiano. El sistema de storytelling de GeoOrigen.">
@@ -24,12 +24,11 @@ a,a:visited{color:inherit;text-decoration:none;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:0.85rem 2.5rem;background:rgba(26,26,20,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--borde);}
-.nav-logo{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--blanco);}
-.nav-logo span{color:var(--menta);font-style:italic;}
+.nav-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;}.nav-logo img{height:36px;width:auto;display:block;}
 .nav-links{display:flex;align-items:center;gap:1.75rem;}
 .nav-link{font-size:0.73rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,250,246,0.48);transition:color .2s;}
 .nav-link:hover,.nav-link.active{color:var(--blanco);}
-.nav-cta{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;background:var(--menta);color:var(--verde);padding:0.48rem 1.1rem;border-radius:3px;font-weight:500;}
+.nav-cta{font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;background:var(--menta);color:var(--blanco);padding:0.5rem 1.2rem;border-radius:3px;text-decoration:none;font-weight:500;transition:background .2s;}
 
 /* HERO HEADER */
 .page-header{padding:7.5rem 2.5rem 3rem;border-bottom:1px solid var(--borde);background:linear-gradient(to bottom,rgba(45,80,22,0.06),transparent);}
@@ -156,8 +155,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;align-items:cen
 
 /* FOOTER */
 footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:4rem;}
-.footer-logo{font-family:'Playfair Display',serif;font-size:1rem;}
-.footer-logo span{color:var(--menta);font-style:italic;}
+.footer-logo{display:flex;align-items:center;}.footer-logo img{height:52px;width:auto;display:block;}
 .footer-links{display:flex;gap:1.5rem;}
 .footer-link{font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(250,250,246,0.28);transition:color .2s;}
 .footer-link:hover{color:var(--menta);}
@@ -224,14 +222,14 @@ footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5
 <body>
 
 <nav>
-  <a href="https://geoorigen.com" class="nav-logo">Geo<span>Origen</span></a>
+  <a href="https://geoorigen.com" class="nav-logo"><img src="https://geoorigen.com/img/logo-blanco.png" alt="GeoOrigen"></a>
   <div class="nav-links">
     <a href="https://geoorigen.com" class="nav-link">Inicio</a>
     <a href="https://geoorigen.com/servicios.html" class="nav-link">Servicios</a>
     <a href="https://geoorigen.com/proyectos.html" class="nav-link">Catálogo</a>
     <a href="https://geoorigen-productos.wilmenrioblanco.workers.dev/productos.html" class="nav-link">Productos</a>
     <a href="publicaciones.html" class="nav-link active">Voces del campo</a>
-    <a href="https://geoorigen.com/contacto.html" class="nav-cta">Contacto</a>
+    <a href="https://geoorigen.com/contacto.html" class="nav-cta">Hablemos de tu proyecto</a>
   </div>
 </nav>
 
@@ -297,7 +295,7 @@ footer{background:var(--gris);border-top:1px solid var(--borde);padding:2rem 2.5
 </div>
 
 <footer>
-  <div class="footer-logo">Geo<span>Origen</span></div>
+  <div class="footer-logo"><img src="https://geoorigen.com/img/logo-blanco-slogan.png" alt="GeoOrigen"></div>
   <div class="footer-links">
     <a href="https://geoorigen.com" class="footer-link">Inicio</a>
     <a href="https://geoorigen.com/proyectos.html" class="footer-link">Catálogo</a>
